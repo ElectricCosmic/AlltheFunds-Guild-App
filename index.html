@@ -3,153 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guild Application</title>
+    <title>AlltheFunds - Guild Application</title>
     <style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #161920;
+            --accent-color: #5865F2;
+            --accent-hover: #4752C4;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #2b2f38;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #313338;
-            color: #dbdee1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
         }
+
         .container {
-            background-color: #2b2d31;
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 24px;
+            color: var(--text-main);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
             border-radius: 8px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            margin: 20px;
-        }
-        h2 { text-align: center; color: #fff; margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold; }
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            background-color: #1e1f22;
-            border: 1px solid #383a40;
-            border-radius: 4px;
-            color: #fff;
+            border: 1px solid var(--border-color);
+            background-color: #0f1115;
+            color: var(--text-main);
+            font-size: 14px;
             box-sizing: border-box;
+            transition: border-color 0.2s;
         }
-        textarea { resize: vertical; height: 90px; }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #5865f2;
+            padding: 12px;
+            background-color: var(--accent-color);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: bold;
+            transition: background-color 0.2s;
         }
-        button:hover { background-color: #4752c4; }
-        #success-msg {
-            display: none;
-            color: #23a55a;
-            text-align: center;
-            font-weight: bold;
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .status-message {
             margin-top: 15px;
-            line-height: 1.5;
+            text-align: center;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Guild Application</h2>
-    <form id="appForm">
-        <label for="discordTag">Exact Discord Username</label>
-        <input type="text" id="discordTag" required placeholder="e.g. username (make sure DMs are open)">
-
-        <label for="charName">What is your in-game character name?</label>
-        <input type="text" id="charName" required placeholder="Character Name">
-
-        <label for="gearScore">What is your current gear score?</label>
-        <input type="text" id="gearScore" required placeholder="e.g. 3500+">
-
-        <label for="guildGoals">What are you looking for in a guild?</label>
-        <textarea id="guildGoals" required placeholder="Tell us what you expect from us..."></textarea>
-
-        <label for="gamingSchedule">When do you normally game and what time zone are you?</label>
-        <input type="text" id="gamingSchedule" required placeholder="e.g. Evenings, EST">
-
-        <label for="contentFocus">What content do you want to do?</label>
-        <select id="contentFocus" required>
-            <option value="" disabled selected>Select content preference</option>
-            <option value="PvP">PvP</option>
-            <option value="PvE">PvE</option>
-            <option value="Casual">Casual</option>
-            <option value="PvP / PvE Mix">PvP / PvE Mix</option>
-        </select>
-
-        <button type="submit" id="submitBtn">Submit Application</button>
-    </form>
-    <div id="success-msg">Application submitted successfully!<br><br>Staff will review your stats. If accepted, you will receive a Discord invite link directly.</div>
-</div>
-
-<script>
-    // Paste your Discord Webhook URL here
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1548795401346482266/Awwc32J0P5any9IRD-4hYGePbY7qXvRS11VvPKxe16rcPA0hFtaYUcSZCyLKbaphTu0S";
-
-    document.getElementById('appForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+    <div class="container">
+        <h1>AlltheFunds</h1>
+        <div class="subtitle">Guild Recruitment Application</div>
         
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Submitting...";
+        <form id="applicationForm">
+            <div class="form-group">
+                <label for="charName">Character Name & Discord Username</label>
+                <input type="text" id="charName" name="charName" required placeholder="e.g., CharacterName#1234">
+            </div>
 
-        const discordTag = document.getElementById('discordTag').value;
-        const charName = document.getElementById('charName').value;
-        const gearScore = document.getElementById('gearScore').value;
-        const guildGoals = document.getElementById('guildGoals').value;
-        const gamingSchedule = document.getElementById('gamingSchedule').value;
-        const contentFocus = document.getElementById('contentFocus').value;
+            <div class="form-group">
+                <label for="gearScore">Gear Score</label>
+                <input type="text" id="gearScore" name="gearScore" required placeholder="e.g., 3500+ or item level">
+            </div>
 
-        const payload = {
-            embeds: [{
-                title: "📥 New External Application",
-                color: 5793266,
-                fields: [
-                    { name: "Discord User", value: discordTag, inline: true },
-                    { name: "Character Name", value: charName, inline: true },
-                    { name: "Gear Score", value: gearScore, inline: true },
-                    { name: "Content Focus", value: contentFocus, inline: true },
-                    { name: "Gaming Schedule / Time Zone", value: gamingSchedule, inline: false },
-                    { name: "What they look for in a guild", value: guildGoals, inline: false }
-                ],
-                timestamp: new Date().toISOString()
-            }]
-        };
+            <div class="form-group">
+                <label for="guildGoals">Guild Goals</label>
+                <textarea id="guildGoals" name="guildGoals" required placeholder="What do you hope to achieve with AlltheFunds?"></textarea>
+            </div>
 
-        try {
-            const response = await fetch(WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+            <div class="form-group">
+                <label for="availability">Are you available M/T/F/Sa from 6pm-8pm PST?</label>
+                <select id="availability" name="availability" required>
+                    <option value="" disabled selected>Select Yes or No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
 
-            if (response.ok) {
-                document.getElementById('appForm').style.display = 'none';
-                document.getElementById('success-msg').style.display = 'block';
-            } else {
-                alert('Failed to submit application. Please try again later.');
+            <div class="form-group">
+                <label for="contentPref">Content Preference</label>
+                <input type="text" id="contentPref" name="contentPref" required placeholder="e.g., PvP, PvE, World Bosses, Raids">
+            </div>
+
+            <button type="submit" id="submitBtn">Submit Application</button>
+            <div id="status" class="status-message"></div>
+        </form>
+    </div>
+
+    <script>
+        // REPLACE THE URL BELOW WITH YOUR ACTUAL DISCORD WEBHOOK URL
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1548795401346482266/Awwc32J0P5any9IRD-4hYGePbY7qXvRS11VvPKxe16rcPA0hFtaYUcSZCyLKbaphTu0S";
+
+        document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const statusDiv = document.getElementById('status');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            statusDiv.textContent = '';
+
+            const charName = document.getElementById('charName').value;
+            const gearScore = document.getElementById('gearScore').value;
+            const guildGoals = document.getElementById('guildGoals').value;
+            const availability = document.getElementById('availability').value;
+            const contentPref = document.getElementById('contentPref').value;
+
+            const discordPayload = {
+                embeds: [{
+                    title: "New Guild Application - AlltheFunds",
+                    color: 5793266,
+                    fields: [
+                        { name: "Character / Discord", value: charName, inline: false },
+                        { name: "Gear Score", value: gearScore, inline: true },
+                        { name: "Available M/T/F/Sa (6pm-8pm PST)", value: availability, inline: true },
+                        { name: "Content Preference", value: contentPref, inline: false },
+                        { name: "Guild Goals", value: guildGoals, inline: false }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            try {
+                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(discordPayload)
+                });
+
+                if (response.ok) {
+                    statusDiv.style.color = '#22c55e';
+                    statusDiv.textContent = 'Application submitted successfully! Staff will review it shortly.';
+                    document.getElementById('applicationForm').reset();
+                } else {
+                    throw new Error('Failed to send to Discord.');
+                }
+            } catch (error) {
+                statusDiv.style.color = '#ef4444';
+                statusDiv.textContent = 'Error submitting application. Please check your webhook URL or try again later.';
+            } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Submit Application";
+                submitBtn.textContent = 'Submit Application';
             }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred. Check your webhook URL.');
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Submit Application";
-        }
-    });
-</script>
-
+        });
+    </script>
 </body>
 </html>
